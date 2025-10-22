@@ -39,10 +39,10 @@ reqwest = { workspace = true, features = ["stream"] }
 flate2 = { workspace = true }
 tar = { workspace = true }
 rv-cache = { workspace = true, features = ["clap"] }
-rv-gem-specification-yaml = { workspace = true  }
+rv-gem-specification-yaml = { workspace = true }
 rv-ruby = { workspace = true }
 rv-dirs = { workspace = true }
-rv-lockfile= { workspace = true }
+rv-lockfile = { workspace = true }
 camino = { workspace = true }
 futures-util = { workspace = true }
 current_platform = { workspace = true }
@@ -58,6 +58,7 @@ bytes = "1.10.1"
 saphyr.workspace = true
 sha2.workspace = true
 hex = "0.4.3"
+
 
 [dev-dependencies]
 insta = { workspace = true }

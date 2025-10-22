@@ -12,6 +12,10 @@ seahash = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 tempfile = { workspace = true }
 tracing = { workspace = true }
+cacache = { workspace = true, default-features = false, features = [
+    "tokio-runtime",
+    "mmap",
+] }
 
 [dev-dependencies]
 assert_fs = { workspace = true }
