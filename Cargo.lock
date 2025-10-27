@@ -2064,6 +2064,7 @@ dependencies = [
  "assert_fs",
  "bytes",
  "bytesize",
+ "cacache",
  "camino",
  "camino-tempfile-ext",
  "clap",
@@ -2117,7 +2118,6 @@ name = "rv-cache"
 version = "0.1.0"
 dependencies = [
  "assert_fs",
- "cacache",
  "camino",
  "clap",
  "fs-err",

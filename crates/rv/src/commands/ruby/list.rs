@@ -42,6 +42,8 @@ pub enum Error {
     #[error(transparent)]
     IoError(#[from] std::io::Error),
     #[error(transparent)]
+    CacacheError(#[from] cacache::Error),
+    #[error(transparent)]
     VersionError(#[from] rv_ruby::request::RequestError),
     #[error(transparent)]
     RubyError(#[from] rv_ruby::RubyError),
@@ -160,8 +162,8 @@ pub(crate) async fn fetch_available_rubies(cache: &rv_cache::Cache) -> Result<Re
 
     // 1. Try to read from the disk cache.
     let cached_data: Option<CachedRelease> =
-        if let Ok(content) = fs::read_to_string(cache_entry.path()) {
-            serde_json::from_str(&content).ok()
+        if let Ok(content) = cacache::read_sync(cache.root(), cache_entry.path()) {
+            serde_json::from_slice(&content).ok()
         } else {
             None
         };
@@ -206,7 +208,11 @@ pub(crate) async fn fetch_available_rubies(cache: &rv_cache::Cache) -> Result<Re
                 .unwrap_or(Duration::from_secs(60));
 
             stale_cache.expires_at = SystemTime::now() + max_age.max(MINIMUM_CACHE_TTL);
-            fs::write(cache_entry.path(), serde_json::to_string(&stale_cache)?)?;
+            cacache::write_sync(
+                cache.root(),
+                cache_entry.path(),
+                serde_json::to_string(&stale_cache)?,
+            )?;
             Ok(stale_cache.release)
         }
         reqwest::StatusCode::OK => {

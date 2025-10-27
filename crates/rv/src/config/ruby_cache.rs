@@ -66,7 +66,7 @@ impl Config {
 
         // Serialize and write Ruby information to cache
         let json_data = serde_json::to_string(ruby).into_diagnostic()?;
-        fs_err::write(cache_entry.path(), json_data).into_diagnostic()?;
+        cacache::write_sync(self.cache.root(), cache_entry.path(), json_data).into_diagnostic()?;
 
         Ok(())
     }
